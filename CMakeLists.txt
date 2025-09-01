@@ -33,8 +33,6 @@ enable_language(C ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
-        Drivers/User/Inc/test.h
-        Drivers/User/Src/test.c
 )
 
 #  在构建后，将ELF文件转换为BIN和HEX格式
