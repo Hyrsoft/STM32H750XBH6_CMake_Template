@@ -1,13 +1,25 @@
 {
     "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "buildType",
+            "type": "pickString",
+            "description": "Please select the build type to use",
+            "options": [
+                "Debug",
+                "Release"
+            ],
+            "default": "Debug"
+        }
+    ],
     "tasks": [
         {
-            "label": "CMake configure",
+            "label": "🔧 Configure",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--preset",
-                "Debug"
+                "${input:buildType}"
             ],
             "group": "build",
             "problemMatcher": [
@@ -16,25 +28,25 @@
             "detail": "Generated task for CMake configure"
         },
         {
-            "label": "Build",
+            "label": "🔨 Build",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--build",
                 "--preset",
-                "Debug"
+                "${input:buildType}"
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
             },
             "problemMatcher": [
                 "$gcc"
             ],
+            "dependsOn": "🔧 Configure",
             "detail": "Generated task for building the project"
         },
         {
-            "label": "Flash",
+            "label": "📥 Flash",
             "type": "shell",
             "command": "pyocd",
             "args": [
@@ -43,14 +55,13 @@
                 "stm32h750xx",
                 "-O",
                 "connect_mode=under-reset",
-                "./build/Debug/STM32H750XBH6_Template.bin@0x90000000"
+                "./build/${input:buildType}/STM32H750XBH6_Template.bin@0x90000000"
             ],
-            "dependsOn": "Build",
-            "problemMatcher": [],
+            "group": "build",
             "detail": "Build and flash the binary to the target device using pyOCD"
         },
         {
-            "label": "Clean",
+            "label": "🧹 Clean",
             "type": "shell",
             "command": "bash",
             "args": [
@@ -60,6 +71,27 @@
             "group": "build",
             "problemMatcher": [],
             "detail": "Generated task for cleaning the build and cache directories"
-        }
+        },
+        {
+            "label": "🚀 Clean + Build",
+            "detail": "Full Workflow: Clean, Build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean",
+                "Build",
+            ],
+            "group": "build",
+        },
+        {
+            "label": "🚀🚀 Clean + Build + Flash",
+            "detail": "Full Workflow: Clean, Build and Flash using pyOCD",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean",
+                "Build",
+                "Flash"
+            ],
+            "group": "build",
+        },
     ]
 }
