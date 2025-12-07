@@ -6,7 +6,24 @@
 
 #### VS Code快捷任务
 
-待补充
+本项目已预置了 VS Code 任务，以简化开发流程。使用快捷键 `Ctrl+Shift+B` 唤出任务面板，从列表中选择你想要执行的任务并选择预设（Debug/Release）。
+
+可用任务列表如下：
+
+基础任务 (Basic Tasks): 执行单一操作的基本任务。
+
+1.  **🔧 Configure**: 配置 CMake 环境。Build 任务会自动调用它，通常无需手动执行。
+2.  **🔨 Build**: 编译项目（依赖于 🔧 Configure）。
+3.  **🧹 Clean**: 清理所有构建生成的文件。
+4.  **📥 Flash**: 使用 pyOCD 将固件烧录到目标设备。
+
+组合工作流 (Composite Workflows): 按顺序执行多个基础任务的便捷工作流。
+
+1.  **🚀 Clean + Build**: 自动完成清理和编译两个步骤。
+
+2. **🚀🚀 Clean + Build + Flash**: (推荐) 全自动工作流，依次执行清理、编译，并使用 oyOcd 进行烧录。
+
+所有任务的详细定义均可在 `.vscode/tasks.json` 文件中查看和修改。
 
 #### 配置Clangd服务
 
