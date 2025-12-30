@@ -16,20 +16,18 @@
         {
             "label": "🔧 Configure",
             "type": "shell",
+            "detail": "Configure CMake build environment",
             "command": "cmake",
             "args": [
                 "--preset",
                 "${input:buildType}"
             ],
             "group": "build",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "detail": "Generated task for CMake configure"
         },
         {
             "label": "🔨 Build",
             "type": "shell",
+            "detail": "Generated task for building the project",
             "command": "cmake",
             "args": [
                 "--build",
@@ -39,15 +37,12 @@
             "group": {
                 "kind": "build",
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
             "dependsOn": "🔧 Configure",
-            "detail": "Generated task for building the project"
         },
         {
             "label": "📥 Flash",
             "type": "shell",
+            "detail": "Build and flash the binary to the target device using pyOCD",
             "command": "pyocd",
             "args": [
                 "flash",
@@ -58,22 +53,20 @@
                 "./build/${input:buildType}/STM32H750XBH6_Template.bin@0x90000000"
             ],
             "group": "build",
-            "detail": "Build and flash the binary to the target device using pyOCD"
         },
         {
             "label": "🧹 Clean",
             "type": "shell",
+            "detail": "Clean the build file",
             "command": "bash",
             "args": [
                 "-c",
                 "rm -rf build"
             ],
             "group": "build",
-            "problemMatcher": [],
-            "detail": "Generated task for cleaning the build and cache directories"
         },
         {
-            "label": "🚀 Clean + Build",
+            "label": "🧹 -> 🔨",
             "detail": "Full Workflow: Clean, Build",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -83,7 +76,7 @@
             "group": "build",
         },
         {
-            "label": "🚀🚀 Clean + Build + Flash",
+            "label": "🧹 -> 🔨 -> 📥",
             "detail": "Full Workflow: Clean, Build and Flash using pyOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
